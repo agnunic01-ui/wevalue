@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wevalue — A rede que valoriza quem indica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Syne:wght@400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --black:#0A0A0A;--white:#F5F2EC;--cream:#EDE8DF;--gold:#C8A96E;
+  --gold-light:#E2C99A;--gold-dim:rgba(200,169,110,0.15);--green-light:#52B788;
+  --muted:#6B6458;--border:rgba(200,169,110,0.2);
+}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--white);font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden;cursor:none}
+.cursor-dot{position:fixed;top:0;left:0;width:8px;height:8px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width .2s,height .2s,background .2s,opacity .2s;will-change:left,top}
+.cursor-ring{position:fixed;top:0;left:0;width:36px;height:36px;border:1px solid rgba(200,169,110,0.5);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:width .35s,height .35s,border-color .35s,background .35s;will-change:left,top}
+.cursor-dot.hovering{width:6px;height:6px;background:var(--black)}
+.cursor-ring.hovering{width:48px;height:48px;background:rgba(200,169,110,0.1);border-color:var(--gold)}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:1000;opacity:.35}
+nav{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:24px 48px;z-index:500;border-bottom:1px solid transparent;transition:border-color .4s,background .4s,backdrop-filter .4s,padding .4s}
+nav.scrolled{border-color:var(--border);background:rgba(10,10,10,0.9);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:16px 48px}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:22px;letter-spacing:-.5px;color:var(--white);text-decoration:none;display:flex;align-items:center;gap:10px;cursor:none}
+.logo-dot{width:8px;height:8px;background:var(--gold);border-radius:50%;animation:pulse 2.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.6);opacity:.6}}
+.nav-badge{font-size:12px;font-weight:500;letter-spacing:.08em;color:var(--gold);border:1px solid var(--border);padding:6px 14px;border-radius:20px;background:var(--gold-dim)}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:140px 48px 80px;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;width:800px;height:800px;background:radial-gradient(circle,rgba(200,169,110,0.09) 0%,transparent 70%);top:-150px;right:-250px;pointer-events:none;animation:glow-drift 10s ease-in-out infinite alternate}
+@keyframes glow-drift{from{transform:translate(0,0) scale(1)}to{transform:translate(-80px,80px) scale(1.15)}}
+.hero-tag{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:40px;opacity:0;animation:fadeUp .8s ease .3s forwards}
+.hero-tag::before{content:'';width:24px;height:1px;background:var(--gold)}
+.hero-title{font-family:'Archivo Black',sans-serif;font-size:clamp(58px,8vw,108px);font-weight:400;line-height:1.0;letter-spacing:-.5px;max-width:840px;margin-bottom:32px;opacity:0;animation:fadeUp .9s ease .45s forwards}
+.hero-title .accent{color:var(--gold);position:relative;display:inline-block}
+.hero-title .accent::after{content:'';position:absolute;bottom:8px;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent);border-radius:2px}
+.hero-sub{font-size:clamp(16px,2vw,20px);font-weight:300;color:var(--muted);max-width:540px;line-height:1.7;margin-bottom:56px;opacity:0;animation:fadeUp .9s ease .6s forwards}
+.hero-sub strong{color:var(--white);font-weight:500}
+.email-form{display:flex;max-width:520px;width:100%;opacity:0;animation:fadeUp .9s ease .75s forwards}
+.email-input{flex:1;background:rgba(245,242,236,0.06);border:1px solid var(--border);border-right:none;border-radius:4px 0 0 4px;padding:16px 20px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:15px;outline:none;cursor:none;transition:border-color .3s,background .3s}
+.email-input::placeholder{color:var(--muted)}
+.email-input:focus{border-color:var(--gold);background:rgba(200,169,110,0.08)}
+.email-input.error{border-color:#C0392B;animation:shake .4s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}60%{transform:translateX(6px)}}
+.email-btn{background:var(--gold);color:var(--black);border:none;border-radius:0 4px 4px 0;padding:16px 28px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;letter-spacing:.05em;cursor:none;white-space:nowrap;transition:background .25s,transform .2s}
+.email-btn:hover{background:var(--gold-light);transform:translateY(-1px)}
+.email-btn:active{transform:translateY(1px)}
+.form-note{margin-top:14px;font-size:12px;color:var(--muted);opacity:0;animation:fadeUp .9s ease .9s forwards}
+.success-msg{display:none;align-items:center;gap:14px;color:var(--green-light);font-size:15px;font-weight:500;padding:18px 24px;border:1px solid rgba(82,183,136,0.3);border-radius:4px;background:rgba(82,183,136,0.08);max-width:520px}
+.hero-counter{margin-top:64px;display:flex;gap:52px;opacity:0;animation:fadeUp .9s ease 1.05s forwards}
+.counter-item{display:flex;flex-direction:column;gap:6px}
+.counter-num{font-family:'Syne',sans-serif;font-size:34px;font-weight:800;color:var(--gold);letter-spacing:-1px;line-height:1}
+.counter-label{font-size:11px;color:var(--muted);letter-spacing:.07em;text-transform:uppercase}
+.scroll-hint{position:absolute;bottom:44px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fadeUp 1s ease 1.4s forwards}
+.scroll-hint span{font-size:10px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+.scroll-line{width:1px;height:52px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scrollLine 2.2s ease-in-out infinite;transform-origin:top}
+@keyframes scrollLine{0%{transform:scaleY(0);transform-origin:top;opacity:1}48%{transform:scaleY(1);transform-origin:top}49%{transform-origin:bottom;opacity:1}100%{transform:scaleY(0);transform-origin:bottom;opacity:0}}
+section{padding:120px 48px;position:relative}
+.section-tag{font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.section-tag::before{content:'';width:20px;height:1px;background:var(--gold)}
+.section-title{font-family:'Archivo Black',sans-serif;font-size:clamp(38px,5vw,68px);font-weight:400;line-height:1.05;letter-spacing:-.3px;margin-bottom:20px}
+.reveal{opacity:0;transform:translateY(36px);transition:opacity .75s ease,transform .75s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:.1s}
+.reveal-delay-2{transition-delay:.2s}
+.reveal-delay-3{transition-delay:.3s}
+.reveal-delay-4{transition-delay:.4s}
+.problem{background:var(--cream);color:var(--black)}
+.problem .section-tag{color:#8B6914}
+.problem .section-tag::before{background:#8B6914}
+.problem .section-title{color:var(--black)}
+.problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;margin-top:64px;align-items:start}
+.problem-intro{font-size:20px;line-height:1.7;font-weight:300;color:#3A3530;max-width:440px}
+.problem-intro strong{color:var(--black);font-weight:600}
+.pain-list{display:flex;flex-direction:column;gap:20px}
+.pain-item{display:flex;gap:20px;align-items:flex-start;padding:24px;border:1px solid rgba(0,0,0,0.08);border-radius:6px;background:white;transition:transform .35s,box-shadow .35s}
+.pain-item:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,0.1)}
+.pain-icon{width:44px;height:44px;border-radius:8px;background:#FEF3E2;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.pain-text h4{font-family:'Archivo Black',sans-serif;font-size:19px;font-weight:400;color:var(--black);margin-bottom:6px}
+.pain-text p{font-size:14px;color:#6B6458;line-height:1.55}
+.how{background:var(--black)}
+.flow-container{margin-top:72px;display:flex;flex-direction:column;position:relative;max-width:780px}
+.flow-line{position:absolute;left:27px;top:48px;bottom:48px;width:1px;background:linear-gradient(to bottom,var(--gold),rgba(200,169,110,0.1))}
+.flow-step{display:flex;gap:32px;align-items:flex-start;padding:32px 0;border-bottom:1px solid var(--border);position:relative}
+.flow-step:last-child{border-bottom:none}
+.step-num{width:56px;height:56px;border-radius:50%;background:var(--gold-dim);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--gold);flex-shrink:0;position:relative;z-index:1;transition:background .3s,border-color .3s,transform .3s}
+.flow-step:hover .step-num{background:rgba(200,169,110,0.22);border-color:var(--gold);transform:scale(1.08)}
+.step-body h3{font-family:'Archivo Black',sans-serif;font-size:26px;font-weight:400;margin-bottom:10px;color:var(--white)}
+.step-body p{font-size:15px;color:var(--muted);line-height:1.7;max-width:500px}
+.step-tag{display:inline-block;margin-top:12px;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);background:var(--gold-dim);padding:4px 10px;border-radius:3px}
+.benefits{background:#0F0E0D}
+.benefits-grid{display:grid;grid-template-columns:repeat(3,1fr);margin-top:72px;border:1px solid var(--border)}
+.benefit-card{padding:40px 32px;background:var(--black);border-right:1px solid var(--border);border-bottom:1px solid var(--border);position:relative;overflow:hidden;transition:background .4s}
+.benefit-card:nth-child(3),.benefit-card:nth-child(6){border-right:none}
+.benefit-card:nth-child(4),.benefit-card:nth-child(5),.benefit-card:nth-child(6){border-bottom:none}
+.benefit-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .45s}
+.benefit-card:hover{background:rgba(200,169,110,0.04)}
+.benefit-card:hover::before{transform:scaleX(1)}
+.benefit-icon{font-size:30px;margin-bottom:20px;display:block}
+.benefit-card h3{font-family:'Archivo Black',sans-serif;font-size:22px;font-weight:400;margin-bottom:12px;color:var(--white)}
+.benefit-card p{font-size:14px;color:var(--muted);line-height:1.6}
+.compare{background:var(--cream);color:var(--black)}
+.compare .section-tag{color:#5A4A2A}
+.compare .section-tag::before{background:#5A4A2A}
+.compare .section-title{color:var(--black)}
+.compare-table{margin-top:64px;width:100%;border-collapse:collapse;font-size:15px}
+.compare-table th{font-family:'Syne',sans-serif;font-weight:700;font-size:13px;padding:16px 24px;text-align:left;border-bottom:2px solid rgba(0,0,0,0.1);color:#3A3530;letter-spacing:.04em}
+.compare-table th:nth-child(3){color:var(--black);background:rgba(200,169,110,0.15);border-radius:4px 4px 0 0}
+.compare-table td{padding:18px 24px;border-bottom:1px solid rgba(0,0,0,0.06);color:#5A5048;vertical-align:middle}
+.compare-table td:nth-child(3){background:rgba(200,169,110,0.08);font-weight:500;color:var(--black)}
+.compare-table td:first-child{font-weight:600;color:var(--black)}
+.check{color:#2D6A4F;font-size:18px}
+.cross{color:#C0392B;font-size:18px}
+.partial{color:#E67E22;font-size:16px;font-weight:700}
+.cta-section{background:var(--black);text-align:center;padding:160px 48px;position:relative;overflow:hidden}
+.cta-section::before{content:'';position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(200,169,110,0.09) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
+.cta-section .section-tag{justify-content:center}
+.cta-title{font-family:'Archivo Black',sans-serif;font-size:clamp(44px,6vw,82px);font-weight:400;letter-spacing:-.3px;margin-bottom:24px;line-height:1.03}
+.cta-sub{font-size:18px;color:var(--muted);font-weight:300;max-width:480px;margin:0 auto 56px;line-height:1.65}
+.cta-form{display:flex;justify-content:center;max-width:520px;margin:0 auto}
+footer{padding:48px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px}
+.footer-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:18px;color:var(--white);display:flex;align-items:center;gap:8px}
+.footer-copy{font-size:13px;color:var(--muted)}
+.footer-links{display:flex;gap:24px}
+.footer-links a{font-size:13px;color:var(--muted);text-decoration:none;transition:color .2s;cursor:none}
+.footer-links a:hover{color:var(--gold)}
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;z-index:9000;background:rgba(10,10,10,0.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:24px}
+.modal-overlay.open{display:flex;animation:modalFadeIn .3s ease forwards}
+@keyframes modalFadeIn{from{opacity:0}to{opacity:1}}
+.modal{background:#111;border:1px solid var(--border);border-radius:8px;max-width:680px;width:100%;max-height:85vh;display:flex;flex-direction:column;animation:modalSlideUp .35s ease forwards}
+@keyframes modalSlideUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:28px 36px 24px;border-bottom:1px solid var(--border);flex-shrink:0}
+.modal-header h2{font-family:'Archivo Black',sans-serif;font-size:22px;font-weight:400;color:var(--white);letter-spacing:-.3px}
+.modal-close{width:36px;height:36px;border-radius:50%;background:transparent;border:1px solid var(--border);color:var(--muted);font-size:18px;line-height:1;cursor:none;display:flex;align-items:center;justify-content:center;transition:border-color .2s,color .2s,background .2s}
+.modal-close:hover{border-color:var(--gold);color:var(--white);background:var(--gold-dim)}
+.modal-body{overflow-y:auto;padding:32px 36px 40px;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+.modal-body::-webkit-scrollbar{width:4px}
+.modal-body::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.modal-tag{font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:24px;display:flex;align-items:center;gap:8px}
+.modal-tag::before{content:'';width:16px;height:1px;background:var(--gold)}
+.modal-body h3{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin:28px 0 10px}
+.modal-body p{font-size:14px;color:#9A9188;line-height:1.75}
+.modal-body p+p{margin-top:10px}
+.modal-body strong{color:var(--white);font-weight:500}
+.modal-body ul{margin:10px 0;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.modal-body ul li{font-size:14px;color:#9A9188;line-height:1.65;padding-left:20px;position:relative}
+.modal-body ul li::before{content:'--';position:absolute;left:0;color:var(--gold);font-size:12px}
+.modal-footer-note{margin-top:32px;padding-top:24px;border-top:1px solid var(--border);font-size:12px;color:var(--muted);line-height:1.6}
+/* Contact cards */
+.contact-card{display:flex;align-items:center;gap:20px;padding:20px 24px;border:1px solid var(--border);border-radius:6px;text-decoration:none;background:rgba(200,169,110,0.04);transition:border-color .25s,background .25s;margin-bottom:12px}
+.contact-card:last-child{margin-bottom:0}
+.contact-card:hover{border-color:var(--gold);background:rgba(200,169,110,0.09)}
+.contact-card-icon{width:44px;height:44px;border-radius:8px;background:var(--gold-dim);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.contact-card-label{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.contact-card-value{font-size:15px;color:var(--white);font-weight:500}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:768px){
+  nav{padding:18px 24px}nav.scrolled{padding:14px 24px}
+  .hero{padding:110px 24px 80px}section{padding:80px 24px}
+  .problem-grid{grid-template-columns:1fr;gap:44px}
+  .benefits-grid{grid-template-columns:1fr}
+  .benefit-card{border-right:none!important;border-bottom:1px solid var(--border)!important}
+  .benefit-card:last-child{border-bottom:none!important}
+  .hero-counter{gap:28px;flex-wrap:wrap}.counter-num{font-size:28px}
+  footer{flex-direction:column;gap:20px;text-align:center}.footer-links{justify-content:center}
+  .compare-table{font-size:12px}.compare-table th,.compare-table td{padding:12px 10px}
+  .email-form,.cta-form{flex-direction:column;max-width:100%}
+  .email-input{border-right:1px solid var(--border);border-bottom:none;border-radius:4px 4px 0 0}
+  .email-btn{border-radius:0 0 4px 4px;padding:16px}
+  body{cursor:auto}.cursor-dot,.cursor-ring{display:none}
+  .modal-body{padding:24px 20px 32px}.modal-header{padding:20px 20px 16px}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav id="mainNav">
+  <a href="#" class="logo"><div class="logo-dot"></div>Wevalue</a>
+  <span class="nav-badge">Em breve &middot; Pr&eacute;-cadastro aberto</span>
+</nav>
+
+<section class="hero">
+  <div class="hero-tag">Plataforma de indica&ccedil;&otilde;es para devs</div>
+  <h1 class="hero-title">
+    Sua indica&ccedil;&atilde;o<br>
+    tem <span class="accent">valor.</span><br>
+    &Eacute; hora de<br>rastr&eacute;&aacute;-la.
+  </h1>
+  <p class="hero-sub">
+    Wevalue &eacute; a rede onde <strong>freelancers tech</strong> indicam uns aos outros,
+    constroem <strong>reputa&ccedil;&atilde;o port&aacute;vel</strong> e s&atilde;o recompensados por
+    cada conex&atilde;o que gera resultado.
+  </p>
+  <div class="email-form" id="hero-form">
+    <input type="email" class="email-input" placeholder="seu@email.com" id="hero-email" autocomplete="email">
+    <button class="email-btn" id="hero-btn" type="button">Quero entrar primeiro</button>
+  </div>
+  <div class="success-msg" id="hero-success">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <circle cx="10" cy="10" r="9" stroke="#52B788" stroke-width="1.5"/>
+      <path d="M6 10l3 3 5-5" stroke="#52B788" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Perfeito! Voc&ecirc; est&aacute; na lista de acesso antecipado.
+  </div>
+  <p class="form-note">Sem spam. Voc&ecirc; ser&aacute; avisado primeiro quando abrirmos o acesso.</p>
+  <div class="hero-counter">
+    <div class="counter-item"><span class="counter-num" id="cnt-main">0</span><span class="counter-label">no pr&eacute;-cadastro</span></div>
+    <div class="counter-item"><span class="counter-num">R$&nbsp;0</span><span class="counter-label">para come&ccedil;ar a usar</span></div>
+    <div class="counter-item"><span class="counter-num">100%</span><span class="counter-label">focado no Brasil</span></div>
+  </div>
+  <div class="scroll-hint">
+    <span>Conhe&ccedil;a</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<section class="problem">
+  <div class="section-tag">O problema</div>
+  <h2 class="section-title reveal">Indica&ccedil;&otilde;es acontecem.<br>O valor some.</h2>
+  <div class="problem-grid">
+    <p class="problem-intro reveal reveal-delay-1">
+      Todo dev j&aacute; indicou algu&eacute;m para um projeto.
+      Mas essa indica&ccedil;&atilde;o <strong>n&atilde;o fica registrada em lugar nenhum</strong>,
+      n&atilde;o gera reciprocidade garantida e n&atilde;o constr&oacute;i reputa&ccedil;&atilde;o.<br><br>
+      R$ bilh&otilde;es em valor s&atilde;o trocados todo m&ecirc;s entre freelancers brasileiros &mdash;
+      <strong>completamente informais e sem infraestrutura.</strong>
+    </p>
+    <div class="pain-list">
+      <div class="pain-item reveal reveal-delay-2">
+        <div class="pain-icon">&#128269;</div>
+        <div class="pain-text"><h4>Sem rastreamento</h4><p>Voc&ecirc; indica, a pessoa fecha o projeto, e voc&ecirc; nunca fica sabendo o resultado. N&atilde;o h&aacute; hist&oacute;rico, n&atilde;o h&aacute; confirma&ccedil;&atilde;o.</p></div>
+      </div>
+      <div class="pain-item reveal reveal-delay-3">
+        <div class="pain-icon">&#128257;</div>
+        <div class="pain-text"><h4>Sem reciprocidade</h4><p>Voc&ecirc; indicou 5 pessoas. Quando precisou de uma indica&ccedil;&atilde;o, ningu&eacute;m lembrou. O ciclo n&atilde;o fecha.</p></div>
+      </div>
+      <div class="pain-item reveal reveal-delay-4">
+        <div class="pain-icon">&#127965;&#65039;</div>
+        <div class="pain-text"><h4>Reputa&ccedil;&atilde;o fragmentada</h4><p>Suas avalia&ccedil;&otilde;es ficam presas no Upwork, no 99Freelas, no LinkedIn. N&atilde;o existem juntas em nenhum lugar.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="how">
+  <div class="section-tag">Como funciona</div>
+  <h2 class="section-title reveal">Simples como uma<br>indica&ccedil;&atilde;o deveria ser.</h2>
+  <div class="flow-container">
+    <div class="flow-line"></div>
+    <div class="flow-step reveal reveal-delay-1">
+      <div class="step-num">1</div>
+      <div class="step-body"><h3>Voc&ecirc; indica um colega</h3><p>Recebeu um projeto fora do seu escopo? Registre a indica&ccedil;&atilde;o no Wevalue em 30 segundos &mdash; com o projeto, o valor estimado e quem voc&ecirc; est&aacute; indicando.</p><span class="step-tag">Rastreamento ativado</span></div>
+    </div>
+    <div class="flow-step reveal reveal-delay-2">
+      <div class="step-num">2</div>
+      <div class="step-body"><h3>O indicado confirma e fecha o projeto</h3><p>O colega indicado recebe notifica&ccedil;&atilde;o, confirma o interesse e contata o cliente. Quando o projeto fechar, ele confirma no Wevalue. Ambos t&ecirc;m hist&oacute;rico desse momento.</p><span class="step-tag">Ambos t&ecirc;m registro</span></div>
+    </div>
+    <div class="flow-step reveal reveal-delay-3">
+      <div class="step-num">3</div>
+      <div class="step-body"><h3>O valor &eacute; distribu&iacute;do</h3><p>Uma taxa de 4% sobre o contrato fechado via indica&ccedil;&atilde;o. O indicado paga. 80% disso vai para voc&ecirc; como cr&eacute;dito Wevalue &mdash; que pode virar desconto, destaque ou saque.</p><span class="step-tag">Remunera&ccedil;&atilde;o real</span></div>
+    </div>
+    <div class="flow-step reveal reveal-delay-4">
+      <div class="step-num">4</div>
+      <div class="step-body"><h3>Sua reputa&ccedil;&atilde;o cresce com voc&ecirc;</h3><p>Cada indica&ccedil;&atilde;o bem-feita vira parte do seu perfil p&uacute;blico. Quantas indica&ccedil;&otilde;es voc&ecirc; deu, quantas foram convertidas, qual o valor total gerado para a rede.</p><span class="step-tag">Port&aacute;vel e verific&aacute;vel</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="benefits">
+  <div class="section-tag">Por que o Wevalue</div>
+  <h2 class="section-title reveal">Constru&iacute;do para<br>quem j&aacute; indica.</h2>
+  <div class="benefits-grid">
+    <div class="benefit-card reveal reveal-delay-1"><span class="benefit-icon">&#9889;</span><h3>Remunera&ccedil;&atilde;o real por indica&ccedil;&atilde;o</h3><p>Pela primeira vez, suas indica&ccedil;&otilde;es t&ecirc;m retorno financeiro direto. N&atilde;o &eacute; ponto, n&atilde;o &eacute; desconto em taxa &mdash; &eacute; valor real.</p></div>
+    <div class="benefit-card reveal reveal-delay-2"><span class="benefit-icon">&#128279;</span><h3>Reciprocidade garantida</h3><p>Quem recebe uma indica&ccedil;&atilde;o tem obriga&ccedil;&atilde;o registrada de retribuir. O sistema cria ciclos de confian&ccedil;a em vez de favores esquecidos.</p></div>
+    <div class="benefit-card reveal reveal-delay-3"><span class="benefit-icon">&#127942;</span><h3>Reputa&ccedil;&atilde;o port&aacute;vel</h3><p>Seu score Wevalue vai com voc&ecirc;. N&atilde;o fica preso em nenhuma plataforma. &Eacute; o seu hist&oacute;rico de confian&ccedil;a.</p></div>
+    <div class="benefit-card reveal reveal-delay-1"><span class="benefit-icon">&#127463;&#127479;</span><h3>100% focado no Brasil</h3><p>Em portugu&ecirc;s, em reais, entendendo a realidade do freelancer brasileiro. Sem barreiras de idioma nem burocracia.</p></div>
+    <div class="benefit-card reveal reveal-delay-2"><span class="benefit-icon">&#128202;</span><h3>Rastreamento transparente</h3><p>Voc&ecirc; acompanha cada indica&ccedil;&atilde;o em tempo real. Status, valor, confirma&ccedil;&atilde;o &mdash; tudo vis&iacute;vel, tudo seu.</p></div>
+    <div class="benefit-card reveal reveal-delay-3"><span class="benefit-icon">&#128640;</span><h3>Come&ccedil;a gratuito</h3><p>Nenhum custo para criar perfil, registrar indica&ccedil;&otilde;es e construir reputa&ccedil;&atilde;o. S&oacute; pagamos juntos quando a indica&ccedil;&atilde;o gera valor real.</p></div>
+  </div>
+</section>
+
+<section class="compare">
+  <div class="section-tag">Comparativo</div>
+  <h2 class="section-title reveal">Wevalue vs. o que existe hoje</h2>
+  <table class="compare-table reveal reveal-delay-1">
+    <thead>
+      <tr><th>Recurso</th><th>Upwork / 99Freelas</th><th>Wevalue</th><th>WhatsApp / informal</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Rastreamento de indica&ccedil;&otilde;es</td><td><span class="cross">&#10007;</span> N&atilde;o existe</td><td><span class="check">&#10003;</span> Completo</td><td><span class="cross">&#10007;</span> N&atilde;o existe</td></tr>
+      <tr><td>Remunera&ccedil;&atilde;o por indicar</td><td><span class="cross">&#10007;</span> N&atilde;o</td><td><span class="check">&#10003;</span> 80% da taxa</td><td><span class="cross">&#10007;</span> Depende do colega</td></tr>
+      <tr><td>Reputa&ccedil;&atilde;o port&aacute;vel</td><td><span class="cross">&#10007;</span> Presa na plataforma</td><td><span class="check">&#10003;</span> Seu perfil, sua reputa&ccedil;&atilde;o</td><td><span class="cross">&#10007;</span> N&atilde;o existe</td></tr>
+      <tr><td>Reciprocidade garantida</td><td><span class="cross">&#10007;</span> N&atilde;o</td><td><span class="check">&#10003;</span> Registrada</td><td><span class="cross">&#10007;</span> Boa vontade</td></tr>
+      <tr><td>Comiss&atilde;o sobre seu trabalho</td><td><span class="cross">&#10007;</span> 10&ndash;20%</td><td><span class="check">&#10003;</span> Zero</td><td><span class="check">&#10003;</span> Zero</td></tr>
+      <tr><td>Foco no mercado brasileiro</td><td><span class="partial">~</span> Parcial</td><td><span class="check">&#10003;</span> 100%</td><td><span class="check">&#10003;</span> Sim</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="cta-section">
+  <div class="section-tag">Acesso antecipado</div>
+  <h2 class="cta-title reveal">Entre antes<br>de todo mundo.</h2>
+  <p class="cta-sub reveal reveal-delay-1">Os primeiros 200 inscritos ter&atilde;o acesso gratuito vitalício ao plano Pro quando lan&ccedil;armos.</p>
+  <div class="cta-form reveal reveal-delay-2" id="cta-form">
+    <input type="email" class="email-input" placeholder="seu@email.com" id="cta-email" autocomplete="email">
+    <button class="email-btn" id="cta-btn" type="button">Garantir minha vaga</button>
+  </div>
+  <div class="success-msg" id="cta-success" style="justify-content:center;margin:0 auto;">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <circle cx="10" cy="10" r="9" stroke="#52B788" stroke-width="1.5"/>
+      <path d="M6 10l3 3 5-5" stroke="#52B788" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Voc&ecirc; est&aacute; dentro! Vamos te avisar assim que abrirmos.
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo"><div class="logo-dot"></div>Wevalue</div>
+  <p class="footer-copy">&copy; 2025 Wevalue. Todos os direitos reservados.</p>
+  <div class="footer-links">
+    <a href="#" onclick="openModal('privacy');return false;">Privacidade</a>
+    <a href="#" onclick="openModal('terms');return false;">Termos</a>
+    <a href="#" onclick="openModal('contact');return false;">Contato</a>
+  </div>
+</footer>
+
+<!-- MODAL PRIVACIDADE -->
+<div class="modal-overlay" id="modal-privacy">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="privacy-title">
+    <div class="modal-header">
+      <h2 id="privacy-title">Pol&iacute;tica de Privacidade</h2>
+      <button class="modal-close" onclick="closeModal('privacy')" aria-label="Fechar">&#x2715;</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-tag">Última atualização: Março 2025</div>
+      <h3>Quem somos</h3>
+      <p>O Wevalue é uma plataforma de indicações para freelancers tech brasileiros, desenvolvida com foco em transparência e respeito aos dados dos usuários. Esta política descreve como coletamos, usamos e protegemos as informações fornecidas durante o pré-cadastro.</p>
+      <h3>O que coletamos agora</h3>
+      <p>Nesta fase de pré-lançamento, coletamos <strong>apenas o seu endereço de email</strong>, fornecido voluntariamente ao se inscrever na lista de acesso antecipado. Nada mais.</p>
+      <p>Não coletamos dados de navegação, cookies de rastreamento, informações de dispositivo ou qualquer dado sem o seu consentimento explícito.</p>
+      <h3>Para que usamos seu email</h3>
+      <ul>
+        <li>Enviar o aviso de abertura do acesso antecipado ao Wevalue</li>
+        <li>Comunicar novidades relevantes sobre o lançamento da plataforma</li>
+        <li>Confirmar sua posição na lista de acesso prioritário</li>
+      </ul>
+      <p>Você <strong>não receberá spam</strong>. A frequência de emails nesta fase é baixa — apenas comunicações com valor real.</p>
+      <h3>Compartilhamento de dados</h3>
+      <p>Seu email <strong>não é vendido, alugado ou compartilhado</strong> com terceiros para fins comerciais. O único serviço externo que processa seu email é nossa plataforma de envio (Brevo), utilizada exclusivamente para as comunicações acima descritas.</p>
+      <h3>Seus direitos</h3>
+      <p>Você pode a qualquer momento:</p>
+      <ul>
+        <li>Solicitar a exclusão do seu email da nossa lista</li>
+        <li>Pedir confirmação sobre quais dados temos sobre você</li>
+        <li>Cancelar a inscrição pelo link presente em qualquer email que enviarmos</li>
+      </ul>
+      <p>Para exercer esses direitos, entre em contato: <strong>wevaluehub@outlook.com</strong></p>
+      <h3>Segurança</h3>
+      <p>Os dados coletados são armazenados em servidores com padrão de segurança de mercado. Adotamos boas práticas para proteger as informações contra acesso não autorizado.</p>
+      <h3>Sobre a LGPD</h3>
+      <p>Esta política está alinhada com a <strong>Lei Geral de Proteção de Dados (Lei n.º 13.709/2018)</strong>. O Wevalue respeita a privacidade como princípio, não como obrigação.</p>
+      <div class="modal-footer-note">
+        Esta é uma política simplificada para a fase de pré-lançamento. Uma política completa será publicada junto com o lançamento oficial da plataforma. Dúvidas: <strong>wevaluehub@outlook.com</strong>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL TERMOS -->
+<div class="modal-overlay" id="modal-terms">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="terms-title">
+    <div class="modal-header">
+      <h2 id="terms-title">Termos de Uso</h2>
+      <button class="modal-close" onclick="closeModal('terms')" aria-label="Fechar">&#x2715;</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-tag">Fase de pré-lançamento &middot; Março 2025</div>
+      <h3>O que é o Wevalue hoje</h3>
+      <p>O Wevalue está em fase de pré-lançamento. Ao se inscrever nesta página, você está <strong>manifestando interesse</strong> em participar do acesso antecipado à plataforma — não está contratando nenhum serviço ou assumindo qualquer obrigação.</p>
+      <h3>O que a inscrição garante</h3>
+      <ul>
+        <li>Prioridade de acesso quando a plataforma abrir</li>
+        <li>Possibilidade de acesso gratuito vitalício ao plano Pro para os primeiros 200 inscritos</li>
+        <li>Comunicação direta sobre o lançamento</li>
+      </ul>
+      <p>A oferta do plano Pro gratuito vitalício é uma intenção do Wevalue, não uma obrigação contratual nesta fase. Os detalhes serão formalizados nos termos definitivos no momento do lançamento.</p>
+      <h3>Conduta esperada</h3>
+      <p>O Wevalue é construído sobre <strong>confiança entre profissionais</strong>. Quando a plataforma for lançada, esperamos que os usuários ajam com honestidade nas indicações, respeitem os colegas e utilizem o sistema de forma ética.</p>
+      <h3>Propriedade intelectual</h3>
+      <p>O nome Wevalue, o logotipo e os conceitos descritos nesta página são de propriedade do Wevalue. O conteúdo não pode ser reproduzido para fins comerciais sem autorização.</p>
+      <h3>Limitação de responsabilidade</h3>
+      <p>Nesta fase de pré-cadastro, o Wevalue não presta nenhum serviço ativo. Não nos responsabilizamos por expectativas além do que está explicitamente descrito nesta página.</p>
+      <h3>Contato</h3>
+      <p>Dúvidas sobre estes termos ou sobre o projeto: <strong>wevaluehub@outlook.com</strong></p>
+      <div class="modal-footer-note">
+        Estes são termos simplificados para a fase de pré-lançamento. Termos completos de uso da plataforma serão publicados no lançamento oficial.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CONTATO -->
+<div class="modal-overlay" id="modal-contact">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="contact-title">
+    <div class="modal-header">
+      <h2 id="contact-title">Fale com a gente</h2>
+      <button class="modal-close" onclick="closeModal('contact')" aria-label="Fechar">&#x2715;</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-tag">Estamos no início &mdash; adoramos ouvir feedback</div>
+      <a href="mailto:wevaluehub@outlook.com" class="contact-card">
+        <div class="contact-card-icon">&#9993;&#65039;</div>
+        <div>
+          <div class="contact-card-label">E-mail</div>
+          <div class="contact-card-value">wevaluehub@outlook.com</div>
+        </div>
+      </a>
+      <a href="https://wa.me/5588992860872" target="_blank" rel="noopener" class="contact-card">
+        <div class="contact-card-icon">&#128241;</div>
+        <div>
+          <div class="contact-card-label">Telefone / WhatsApp</div>
+          <div class="contact-card-value">(88) 99286-0872</div>
+        </div>
+      </a>
+      <a href="https://instagram.com/wevalue_" target="_blank" rel="noopener" class="contact-card">
+        <div class="contact-card-icon">&#128248;</div>
+        <div>
+          <div class="contact-card-label">Instagram</div>
+          <div class="contact-card-value">@wevalue_</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* 1. CURSOR */
+  var dot = document.getElementById('cursorDot');
+  var ring = document.getElementById('cursorRing');
+  var mx = 0, my = 0, rx = 0, ry = 0;
+  if (dot && ring) {
+    document.addEventListener('mousemove', function (e) {
+      mx = e.clientX; my = e.clientY;
+      dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+    });
+    (function loop() {
+      rx += (mx - rx) * 0.14; ry += (my - ry) * 0.14;
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(loop);
+    })();
+    document.querySelectorAll('a,button,input').forEach(function (el) {
+      el.addEventListener('mouseenter', function () { dot.classList.add('hovering'); ring.classList.add('hovering'); });
+      el.addEventListener('mouseleave', function () { dot.classList.remove('hovering'); ring.classList.remove('hovering'); });
+    });
+    document.addEventListener('mouseleave', function () { dot.style.opacity = '0'; ring.style.opacity = '0'; });
+    document.addEventListener('mouseenter', function () { dot.style.opacity = '1'; ring.style.opacity = '1'; });
+  }
+
+  /* 2. NAV */
+  var nav = document.getElementById('mainNav');
+  if (nav) {
+    window.addEventListener('scroll', function () {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+  }
+
+  /* 3. REVEAL */
+  var revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var ro = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(function (el) { ro.observe(el); });
+  } else {
+    revealEls.forEach(function (el) { el.classList.add('visible'); });
+  }
+
+  /* 4. COUNTER */
+  var cntEl = document.getElementById('cnt-main');
+  var counted = false, target = 47;
+  function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+  function animCount(el, from, to, ms) {
+    var s = null;
+    function tick(ts) {
+      if (!s) s = ts;
+      var p = Math.min((ts - s) / ms, 1);
+      el.textContent = Math.round(easeOut(p) * (to - from) + from);
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  if (cntEl && 'IntersectionObserver' in window) {
+    var co = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting && !counted) {
+        counted = true; animCount(cntEl, 0, target, 1800); co.disconnect();
+      }
+    }, { threshold: 0.5 });
+    co.observe(cntEl);
+  }
+
+  /* 5. EMAIL FORM */
+  var emailList = [];
+  function isValid(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v); }
+  function submit(prefix) {
+    var inp = document.getElementById(prefix + '-email');
+    var wrap = document.getElementById(prefix + '-form');
+    var ok = document.getElementById(prefix + '-success');
+    if (!inp || !wrap || !ok) return;
+    var val = inp.value.trim();
+    if (!isValid(val)) {
+      inp.classList.add('error');
+      var ph = inp.placeholder;
+      inp.placeholder = 'Digite um email v\u00e1lido'; inp.value = '';
+      setTimeout(function () { inp.classList.remove('error'); inp.placeholder = ph; }, 2400);
+      inp.focus(); return;
+    }
+    if (emailList.indexOf(val) === -1) emailList.push(val);
+    if (cntEl) { var n = parseInt(cntEl.textContent, 10) || target; cntEl.textContent = n + 1; target = n + 1; }
+    wrap.style.display = 'none'; ok.style.display = 'flex';
+  }
+  var hb = document.getElementById('hero-btn');
+  var cb = document.getElementById('cta-btn');
+  if (hb) hb.addEventListener('click', function () { submit('hero'); });
+  if (cb) cb.addEventListener('click', function () { submit('cta'); });
+  document.querySelectorAll('.email-input').forEach(function (inp) {
+    inp.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') { e.preventDefault(); submit(inp.id.replace('-email', '')); }
+    });
+  });
+
+  /* 6. MODALS */
+  function openModal(id) {
+    var el = document.getElementById('modal-' + id);
+    if (!el) return;
+    el.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    el.addEventListener('click', function handler(e) {
+      if (e.target === el) { closeModal(id); el.removeEventListener('click', handler); }
+    });
+    document.addEventListener('keydown', function escHandler(e) {
+      if (e.key === 'Escape') { closeModal(id); document.removeEventListener('keydown', escHandler); }
+    });
+  }
+  function closeModal(id) {
+    var el = document.getElementById('modal-' + id);
+    if (!el) return;
+    el.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  window.openModal = openModal;
+  window.closeModal = closeModal;
+
+}());
+</script>
+</body>
+</html>
