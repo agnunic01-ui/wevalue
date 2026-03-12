@@ -485,9 +485,9 @@ footer{padding:48px;border-top:1px solid var(--border);display:flex;justify-cont
     revealEls.forEach(function (el) { el.classList.add('visible'); });
   }
 
-  /* 4. COUNTER */
+  /* 4. COUNTER — valor real vindo da API */
   var cntEl = document.getElementById('cnt-main');
-  var counted = false, target = 47;
+  var currentCount = 0;
   function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
   function animCount(el, from, to, ms) {
     var s = null;
@@ -499,24 +499,50 @@ footer{padding:48px;border-top:1px solid var(--border);display:flex;justify-cont
     }
     requestAnimationFrame(tick);
   }
-  if (cntEl && 'IntersectionObserver' in window) {
-    var co = new IntersectionObserver(function (entries) {
-      if (entries[0].isIntersecting && !counted) {
-        counted = true; animCount(cntEl, 0, target, 1800); co.disconnect();
+  // Busca o contador real da API ao carregar
+  fetch('/api/subscribe')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      currentCount = data.count || 0;
+      if (cntEl) {
+        var counted = false;
+        if ('IntersectionObserver' in window) {
+          var co = new IntersectionObserver(function (entries) {
+            if (entries[0].isIntersecting && !counted) {
+              counted = true;
+              animCount(cntEl, 0, currentCount, 1800);
+              co.disconnect();
+            }
+          }, { threshold: 0.5 });
+          co.observe(cntEl);
+        } else {
+          cntEl.textContent = currentCount;
+        }
       }
-    }, { threshold: 0.5 });
-    co.observe(cntEl);
+    })
+    .catch(function() {
+      // Fallback silencioso se API não responder
+      if (cntEl) cntEl.textContent = '—';
+    });
+
+  /* 5. EMAIL FORM — integrado com API real */
+  function setLoading(prefix, loading) {
+    var btn = document.getElementById(prefix + '-btn');
+    if (!btn) return;
+    btn.disabled = loading;
+    btn.textContent = loading ? 'Aguarde...' : (prefix === 'hero' ? 'Quero entrar primeiro' : 'Garantir minha vaga');
+    btn.style.opacity = loading ? '0.7' : '1';
   }
 
-  /* 5. EMAIL FORM */
-  var emailList = [];
   function isValid(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v); }
+
   function submit(prefix) {
     var inp = document.getElementById(prefix + '-email');
     var wrap = document.getElementById(prefix + '-form');
     var ok = document.getElementById(prefix + '-success');
     if (!inp || !wrap || !ok) return;
     var val = inp.value.trim();
+
     if (!isValid(val)) {
       inp.classList.add('error');
       var ph = inp.placeholder;
@@ -524,10 +550,43 @@ footer{padding:48px;border-top:1px solid var(--border);display:flex;justify-cont
       setTimeout(function () { inp.classList.remove('error'); inp.placeholder = ph; }, 2400);
       inp.focus(); return;
     }
-    if (emailList.indexOf(val) === -1) emailList.push(val);
-    if (cntEl) { var n = parseInt(cntEl.textContent, 10) || target; cntEl.textContent = n + 1; target = n + 1; }
-    wrap.style.display = 'none'; ok.style.display = 'flex';
+
+    setLoading(prefix, true);
+
+    fetch('/api/subscribe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: val })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.success) {
+        // Atualiza contador com valor real retornado pela API
+        if (!data.duplicate && data.count && cntEl) {
+          currentCount = data.count;
+          cntEl.textContent = currentCount;
+        }
+        wrap.style.display = 'none';
+        ok.style.display = 'flex';
+        // Sincroniza o outro formulário também (hero e cta compartilham estado)
+        var otherPrefix = prefix === 'hero' ? 'cta' : 'hero';
+        var otherWrap = document.getElementById(otherPrefix + '-form');
+        var otherOk = document.getElementById(otherPrefix + '-success');
+        if (otherWrap) otherWrap.style.display = 'none';
+        if (otherOk) otherOk.style.display = 'flex';
+      } else {
+        setLoading(prefix, false);
+        inp.classList.add('error');
+        setTimeout(function() { inp.classList.remove('error'); }, 2400);
+      }
+    })
+    .catch(function() {
+      setLoading(prefix, false);
+      inp.classList.add('error');
+      setTimeout(function() { inp.classList.remove('error'); }, 2400);
+    });
   }
+
   var hb = document.getElementById('hero-btn');
   var cb = document.getElementById('cta-btn');
   if (hb) hb.addEventListener('click', function () { submit('hero'); });
