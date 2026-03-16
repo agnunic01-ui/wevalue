@@ -305,7 +305,8 @@ footer{padding:48px;border-top:1px solid var(--border);display:flex;justify-cont
 <section class="cta-section">
   <div class="section-tag">Acesso antecipado</div>
   <h2 class="cta-title reveal">Entre antes<br>de todo mundo.</h2>
-  <p class="cta-sub reveal reveal-delay-1">Os primeiros 200 inscritos ter&atilde;o acesso gratuito vitalício ao plano Pro quando lan&ccedil;armos.</p>
+  <p class="cta-sub reveal reveal-delay-1" id="cta-sub-vagas">Os primeiros 50 a se cadastrar ter&atilde;o 6 meses gratuitos no plano Pro &mdash; sem cart&atilde;o, sem compromisso.</p>
+  <p class="cta-sub reveal reveal-delay-1" id="cta-sub-lista" style="display:none;">As vagas do plano Pro gratuito j&aacute; foram preenchidas. Mas voc&ecirc; ainda pode entrar na lista &mdash; e ser&aacute; um dos primeiros a saber quando abrirmos o acesso.</p>
   <div class="cta-form reveal reveal-delay-2" id="cta-form">
     <input type="email" class="email-input" placeholder="seu@email.com" id="cta-email" autocomplete="email">
     <button class="email-btn" id="cta-btn" type="button">Garantir minha vaga</button>
@@ -385,10 +386,10 @@ footer{padding:48px;border-top:1px solid var(--border);display:flex;justify-cont
       <h3>O que a inscrição garante</h3>
       <ul>
         <li>Prioridade de acesso quando a plataforma abrir</li>
-        <li>Possibilidade de acesso gratuito vitalício ao plano Pro para os primeiros 200 inscritos</li>
+        <li>Possibilidade de 6 meses gratuitos no plano Pro para os primeiros 50 inscritos</li>
         <li>Comunicação direta sobre o lançamento</li>
       </ul>
-      <p>A oferta do plano Pro gratuito vitalício é uma intenção do Wevalue, não uma obrigação contratual nesta fase. Os detalhes serão formalizados nos termos definitivos no momento do lançamento.</p>
+      <p>A oferta de 6 meses gratuitos no plano Pro é uma intenção do Wevalue, não uma obrigação contratual nesta fase. Os detalhes serão formalizados nos termos definitivos no momento do lançamento.</p>
       <h3>Conduta esperada</h3>
       <p>O Wevalue é construído sobre <strong>confiança entre profissionais</strong>. Quando a plataforma for lançada, esperamos que os usuários ajam com honestidade nas indicações, respeitem os colegas e utilizem o sistema de forma ética.</p>
       <h3>Propriedade intelectual</h3>
@@ -500,10 +501,26 @@ footer{padding:48px;border-top:1px solid var(--border);display:flex;justify-cont
     requestAnimationFrame(tick);
   }
   // Busca o contador real da API ao carregar
+  var PRO_LIMIT = 50;
+
+  function updateCtaBanner(count) {
+    var subVagas = document.getElementById('cta-sub-vagas');
+    var subLista = document.getElementById('cta-sub-lista');
+    if (!subVagas || !subLista) return;
+    if (count >= PRO_LIMIT) {
+      subVagas.style.display = 'none';
+      subLista.style.display = 'block';
+    } else {
+      subVagas.style.display = 'block';
+      subLista.style.display = 'none';
+    }
+  }
+
   fetch('/api/subscribe')
     .then(function(r) { return r.json(); })
     .then(function(data) {
       currentCount = data.count || 0;
+      updateCtaBanner(currentCount);
       if (cntEl) {
         var counted = false;
         if ('IntersectionObserver' in window) {
@@ -565,6 +582,7 @@ footer{padding:48px;border-top:1px solid var(--border);display:flex;justify-cont
         if (!data.duplicate && data.count && cntEl) {
           currentCount = data.count;
           cntEl.textContent = currentCount;
+          updateCtaBanner(currentCount);
         }
         wrap.style.display = 'none';
         ok.style.display = 'flex';
