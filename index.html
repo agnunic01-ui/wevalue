@@ -125,7 +125,6 @@ footer{padding:48px;border-top:1px solid var(--border);display:flex;justify-cont
 .footer-links{display:flex;gap:24px}
 .footer-links a{font-size:13px;color:var(--muted);text-decoration:none;transition:color .2s;cursor:none}
 .footer-links a:hover{color:var(--gold)}
-/* MODAL */
 .modal-overlay{display:none;position:fixed;inset:0;z-index:9000;background:rgba(10,10,10,0.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:24px}
 .modal-overlay.open{display:flex;animation:modalFadeIn .3s ease forwards}
 @keyframes modalFadeIn{from{opacity:0}to{opacity:1}}
@@ -148,7 +147,6 @@ footer{padding:48px;border-top:1px solid var(--border);display:flex;justify-cont
 .modal-body ul li{font-size:14px;color:#9A9188;line-height:1.65;padding-left:20px;position:relative}
 .modal-body ul li::before{content:'--';position:absolute;left:0;color:var(--gold);font-size:12px}
 .modal-footer-note{margin-top:32px;padding-top:24px;border-top:1px solid var(--border);font-size:12px;color:var(--muted);line-height:1.6}
-/* Contact cards */
 .contact-card{display:flex;align-items:center;gap:20px;padding:20px 24px;border:1px solid var(--border);border-radius:6px;text-decoration:none;background:rgba(200,169,110,0.04);transition:border-color .25s,background .25s;margin-bottom:12px}
 .contact-card:last-child{margin-bottom:0}
 .contact-card:hover{border-color:var(--gold);background:rgba(200,169,110,0.09)}
@@ -181,20 +179,21 @@ footer{padding:48px;border-top:1px solid var(--border);display:flex;justify-cont
 
 <nav id="mainNav">
   <a href="#" class="logo"><div class="logo-dot"></div>Wevalue</a>
-  <span class="nav-badge">Em breve &middot; Pr&eacute;-cadastro aberto</span>
+  <span class="nav-badge">Em breve &middot; 50 vagas Pro gratuitas</span>
 </nav>
 
+<!-- HERO — posicionamento amplo: profissionais, não só devs -->
 <section class="hero">
-  <div class="hero-tag">Plataforma de indica&ccedil;&otilde;es para devs</div>
+  <div class="hero-tag">A rede de indica&ccedil;&otilde;es para profissionais</div>
   <h1 class="hero-title">
     Sua indica&ccedil;&atilde;o<br>
     tem <span class="accent">valor.</span><br>
     &Eacute; hora de<br>rastr&eacute;&aacute;-la.
   </h1>
   <p class="hero-sub">
-    Wevalue &eacute; a rede onde <strong>freelancers tech</strong> indicam uns aos outros,
-    constroem <strong>reputa&ccedil;&atilde;o port&aacute;vel</strong> e s&atilde;o recompensados por
-    cada conex&atilde;o que gera resultado.
+    Wevalue &eacute; a rede onde <strong>profissionais</strong> indicam uns aos outros,
+    constroem <strong>reputa&ccedil;&atilde;o port&aacute;vel</strong> e recebem
+    <strong>70% da taxa</strong> por cada conex&atilde;o que gera resultado real.
   </p>
   <div class="email-form" id="hero-form">
     <input type="email" class="email-input" placeholder="seu@email.com" id="hero-email" autocomplete="email">
@@ -207,7 +206,7 @@ footer{padding:48px;border-top:1px solid var(--border);display:flex;justify-cont
     </svg>
     Perfeito! Voc&ecirc; est&aacute; na lista de acesso antecipado.
   </div>
-  <p class="form-note">Sem spam. Voc&ecirc; ser&aacute; avisado primeiro quando abrirmos o acesso.</p>
+  <p class="form-note">Os primeiros 50 inscritos garantem 6 meses de plano Pro gratuitos.</p>
   <div class="hero-counter">
     <div class="counter-item"><span class="counter-num" id="cnt-main">0</span><span class="counter-label">no pr&eacute;-cadastro</span></div>
     <div class="counter-item"><span class="counter-num">R$&nbsp;0</span><span class="counter-label">para come&ccedil;ar a usar</span></div>
@@ -219,16 +218,17 @@ footer{padding:48px;border-top:1px solid var(--border);display:flex;justify-cont
   </div>
 </section>
 
+<!-- PROBLEM — ampliado para qualquer profissional -->
 <section class="problem">
   <div class="section-tag">O problema</div>
   <h2 class="section-title reveal">Indica&ccedil;&otilde;es acontecem.<br>O valor some.</h2>
   <div class="problem-grid">
     <p class="problem-intro reveal reveal-delay-1">
-      Todo dev j&aacute; indicou algu&eacute;m para um projeto.
+      Todo profissional j&aacute; indicou algu&eacute;m para um projeto ou cliente.
       Mas essa indica&ccedil;&atilde;o <strong>n&atilde;o fica registrada em lugar nenhum</strong>,
       n&atilde;o gera reciprocidade garantida e n&atilde;o constr&oacute;i reputa&ccedil;&atilde;o.<br><br>
-      R$ bilh&otilde;es em valor s&atilde;o trocados todo m&ecirc;s entre freelancers brasileiros &mdash;
-      <strong>completamente informais e sem infraestrutura.</strong>
+      R$ bilh&otilde;es em valor s&atilde;o trocados todo m&ecirc;s entre freelancers e profissionais brasileiros &mdash;
+      <strong>completamente informais e sem nenhuma infraestrutura.</strong>
     </p>
     <div class="pain-list">
       <div class="pain-item reveal reveal-delay-2">
@@ -237,16 +237,17 @@ footer{padding:48px;border-top:1px solid var(--border);display:flex;justify-cont
       </div>
       <div class="pain-item reveal reveal-delay-3">
         <div class="pain-icon">&#128257;</div>
-        <div class="pain-text"><h4>Sem reciprocidade</h4><p>Voc&ecirc; indicou 5 pessoas. Quando precisou de uma indica&ccedil;&atilde;o, ningu&eacute;m lembrou. O ciclo n&atilde;o fecha.</p></div>
+        <div class="pain-text"><h4>Sem reciprocidade</h4><p>Voc&ecirc; indicou v&aacute;rias pessoas. Quando precisou de uma indica&ccedil;&atilde;o, ningu&eacute;m lembrou. O ciclo n&atilde;o fecha.</p></div>
       </div>
       <div class="pain-item reveal reveal-delay-4">
         <div class="pain-icon">&#127965;&#65039;</div>
-        <div class="pain-text"><h4>Reputa&ccedil;&atilde;o fragmentada</h4><p>Suas avalia&ccedil;&otilde;es ficam presas no Upwork, no 99Freelas, no LinkedIn. N&atilde;o existem juntas em nenhum lugar.</p></div>
+        <div class="pain-text"><h4>Reputa&ccedil;&atilde;o fragmentada</h4><p>Seu hist&oacute;rico de indica&ccedil;&otilde;es fica preso no WhatsApp, no LinkedIn, na mem&oacute;ria dos colegas. N&atilde;o existe em lugar nenhum como ativo seu.</p></div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- HOW IT WORKS — neutro, sem mencionar "dev" -->
 <section class="how">
   <div class="section-tag">Como funciona</div>
   <h2 class="section-title reveal">Simples como uma<br>indica&ccedil;&atilde;o deveria ser.</h2>
@@ -254,42 +255,44 @@ footer{padding:48px;border-top:1px solid var(--border);display:flex;justify-cont
     <div class="flow-line"></div>
     <div class="flow-step reveal reveal-delay-1">
       <div class="step-num">1</div>
-      <div class="step-body"><h3>Voc&ecirc; indica um colega</h3><p>Recebeu um projeto fora do seu escopo? Registre a indica&ccedil;&atilde;o no Wevalue em 30 segundos &mdash; com o projeto, o valor estimado e quem voc&ecirc; est&aacute; indicando.</p><span class="step-tag">Rastreamento ativado</span></div>
+      <div class="step-body"><h3>Voc&ecirc; indica um colega</h3><p>Recebeu um projeto fora do seu escopo? Registre a indica&ccedil;&atilde;o no Wevalue em 30 segundos &mdash; com o projeto, o valor estimado e quem voc&ecirc; est&aacute; indicando. Ambos recebem notifica&ccedil;&atilde;o imediata.</p><span class="step-tag">Rastreamento ativado</span></div>
     </div>
     <div class="flow-step reveal reveal-delay-2">
       <div class="step-num">2</div>
-      <div class="step-body"><h3>O indicado confirma e fecha o projeto</h3><p>O colega indicado recebe notifica&ccedil;&atilde;o, confirma o interesse e contata o cliente. Quando o projeto fechar, ele confirma no Wevalue. Ambos t&ecirc;m hist&oacute;rico desse momento.</p><span class="step-tag">Ambos t&ecirc;m registro</span></div>
+      <div class="step-body"><h3>O indicado confirma e fecha o projeto</h3><p>O colega indicado recebe notifica&ccedil;&atilde;o, confirma o interesse e contata o cliente. Quando o projeto fechar, ele confirma no Wevalue. Ambos t&ecirc;m hist&oacute;rico permanente desse momento.</p><span class="step-tag">Ambos t&ecirc;m registro</span></div>
     </div>
     <div class="flow-step reveal reveal-delay-3">
       <div class="step-num">3</div>
-      <div class="step-body"><h3>O valor &eacute; distribu&iacute;do</h3><p>Uma taxa de 5% sobre o contrato fechado via indica&ccedil;&atilde;o. O indicado paga. 70% disso vai para voc&ecirc; como cr&eacute;dito Wevalue &mdash; que pode virar desconto, destaque ou saque.</p><span class="step-tag">Remunera&ccedil;&atilde;o real</span></div>
+      <div class="step-body"><h3>O valor &eacute; distribu&iacute;do</h3><p>Uma taxa de 5% sobre o contrato fechado via indica&ccedil;&atilde;o &mdash; paga pelo indicado. <strong>70% vai para voc&ecirc;</strong> como cr&eacute;dito Wevalue. Pode virar desconto no plano, destaque no perfil ou saque via PIX.</p><span class="step-tag">Remunera&ccedil;&atilde;o real</span></div>
     </div>
     <div class="flow-step reveal reveal-delay-4">
       <div class="step-num">4</div>
-      <div class="step-body"><h3>Sua reputa&ccedil;&atilde;o cresce com voc&ecirc;</h3><p>Cada indica&ccedil;&atilde;o bem-feita vira parte do seu perfil p&uacute;blico. Quantas indica&ccedil;&otilde;es voc&ecirc; deu, quantas foram convertidas, qual o valor total gerado para a rede.</p><span class="step-tag">Port&aacute;vel e verific&aacute;vel</span></div>
+      <div class="step-body"><h3>Sua reputa&ccedil;&atilde;o cresce com voc&ecirc;</h3><p>Cada indica&ccedil;&atilde;o bem-feita vira parte do seu perfil p&uacute;blico: quantas voc&ecirc; deu, quantas foram convertidas, qual o valor total gerado para a rede. Reputação portável, verificável por qualquer cliente.</p><span class="step-tag">Port&aacute;vel e verific&aacute;vel</span></div>
     </div>
   </div>
 </section>
 
+<!-- BENEFITS — ampliado para profissionais em geral -->
 <section class="benefits">
   <div class="section-tag">Por que o Wevalue</div>
   <h2 class="section-title reveal">Constru&iacute;do para<br>quem j&aacute; indica.</h2>
   <div class="benefits-grid">
-    <div class="benefit-card reveal reveal-delay-1"><span class="benefit-icon">&#9889;</span><h3>Remunera&ccedil;&atilde;o real por indica&ccedil;&atilde;o</h3><p>Pela primeira vez, suas indica&ccedil;&otilde;es t&ecirc;m retorno financeiro direto. N&atilde;o &eacute; ponto, n&atilde;o &eacute; desconto em taxa &mdash; &eacute; valor real.</p></div>
-    <div class="benefit-card reveal reveal-delay-2"><span class="benefit-icon">&#128279;</span><h3>Reciprocidade garantida</h3><p>Quem recebe uma indica&ccedil;&atilde;o tem obriga&ccedil;&atilde;o registrada de retribuir. O sistema cria ciclos de confian&ccedil;a em vez de favores esquecidos.</p></div>
-    <div class="benefit-card reveal reveal-delay-3"><span class="benefit-icon">&#127942;</span><h3>Reputa&ccedil;&atilde;o port&aacute;vel</h3><p>Seu score Wevalue vai com voc&ecirc;. N&atilde;o fica preso em nenhuma plataforma. &Eacute; o seu hist&oacute;rico de confian&ccedil;a.</p></div>
-    <div class="benefit-card reveal reveal-delay-1"><span class="benefit-icon">&#127463;&#127479;</span><h3>100% focado no Brasil</h3><p>Em portugu&ecirc;s, em reais, entendendo a realidade do freelancer brasileiro. Sem barreiras de idioma nem burocracia.</p></div>
-    <div class="benefit-card reveal reveal-delay-2"><span class="benefit-icon">&#128202;</span><h3>Rastreamento transparente</h3><p>Voc&ecirc; acompanha cada indica&ccedil;&atilde;o em tempo real. Status, valor, confirma&ccedil;&atilde;o &mdash; tudo vis&iacute;vel, tudo seu.</p></div>
-    <div class="benefit-card reveal reveal-delay-3"><span class="benefit-icon">&#128640;</span><h3>Come&ccedil;a gratuito</h3><p>Nenhum custo para criar perfil, registrar indica&ccedil;&otilde;es e construir reputa&ccedil;&atilde;o. S&oacute; pagamos juntos quando a indica&ccedil;&atilde;o gera valor real.</p></div>
+    <div class="benefit-card reveal reveal-delay-1"><span class="benefit-icon">&#9889;</span><h3>70% da taxa &mdash; direto para voc&ecirc;</h3><p>A cada indica&ccedil;&atilde;o convertida, 70% da taxa vai como cr&eacute;dito seu. Pode sacar via PIX ou usar dentro da plataforma. Valor real, n&atilde;o pontos.</p></div>
+    <div class="benefit-card reveal reveal-delay-2"><span class="benefit-icon">&#128279;</span><h3>Reciprocidade garantida</h3><p>Quem recebe uma indica&ccedil;&atilde;o tem obriga&ccedil;&atilde;o registrada de retribuir. O sistema cria ciclos de confian&ccedil;a entre profissionais em vez de favores esquecidos.</p></div>
+    <div class="benefit-card reveal reveal-delay-3"><span class="benefit-icon">&#127942;</span><h3>Reputa&ccedil;&atilde;o port&aacute;vel</h3><p>Seu score Wevalue vai com voc&ecirc;. N&atilde;o fica preso em nenhuma plataforma nem setor. &Eacute; o seu hist&oacute;rico de confian&ccedil;a, verificado por qualquer cliente ou parceiro.</p></div>
+    <div class="benefit-card reveal reveal-delay-1"><span class="benefit-icon">&#127463;&#127479;</span><h3>100% focado no Brasil</h3><p>Em portugu&ecirc;s, em reais, pensado para a realidade do profissional brasileiro. Sem barreiras de idioma, sem burocracia desnecess&aacute;ria.</p></div>
+    <div class="benefit-card reveal reveal-delay-2"><span class="benefit-icon">&#128202;</span><h3>Rastreamento transparente</h3><p>Voc&ecirc; acompanha cada indica&ccedil;&atilde;o em tempo real. Status, valor confirmado, pagamento &mdash; tudo vis&iacute;vel, tudo seu, para sempre.</p></div>
+    <div class="benefit-card reveal reveal-delay-3"><span class="benefit-icon">&#128640;</span><h3>Come&ccedil;a gratuito</h3><p>At&eacute; 5 indica&ccedil;&otilde;es ativas no plano Free. Sem custo para criar perfil, construir reputa&ccedil;&atilde;o e receber cr&eacute;ditos. S&oacute; pagamos juntos quando o resultado vier.</p></div>
   </div>
 </section>
 
+<!-- COMPARE — trocado "devs" por "profissionais", referência a Upwork mantida pois é conhecida -->
 <section class="compare">
   <div class="section-tag">Comparativo</div>
   <h2 class="section-title reveal">Wevalue vs. o que existe hoje</h2>
   <table class="compare-table reveal reveal-delay-1">
     <thead>
-      <tr><th>Recurso</th><th>Upwork / 99Freelas</th><th>Wevalue</th><th>WhatsApp / informal</th></tr>
+      <tr><th>Recurso</th><th>Upwork / Marketplaces</th><th>Wevalue</th><th>WhatsApp / informal</th></tr>
     </thead>
     <tbody>
       <tr><td>Rastreamento de indica&ccedil;&otilde;es</td><td><span class="cross">&#10007;</span> N&atilde;o existe</td><td><span class="check">&#10003;</span> Completo</td><td><span class="cross">&#10007;</span> N&atilde;o existe</td></tr>
@@ -297,15 +300,16 @@ footer{padding:48px;border-top:1px solid var(--border);display:flex;justify-cont
       <tr><td>Reputa&ccedil;&atilde;o port&aacute;vel</td><td><span class="cross">&#10007;</span> Presa na plataforma</td><td><span class="check">&#10003;</span> Seu perfil, sua reputa&ccedil;&atilde;o</td><td><span class="cross">&#10007;</span> N&atilde;o existe</td></tr>
       <tr><td>Reciprocidade garantida</td><td><span class="cross">&#10007;</span> N&atilde;o</td><td><span class="check">&#10003;</span> Registrada</td><td><span class="cross">&#10007;</span> Boa vontade</td></tr>
       <tr><td>Comiss&atilde;o sobre seu trabalho</td><td><span class="cross">&#10007;</span> 10&ndash;20%</td><td><span class="check">&#10003;</span> Zero</td><td><span class="check">&#10003;</span> Zero</td></tr>
-      <tr><td>Foco no mercado brasileiro</td><td><span class="partial">~</span> Parcial</td><td><span class="check">&#10003;</span> 100%</td><td><span class="check">&#10003;</span> Sim</td></tr>
+      <tr><td>Funciona em qualquer &aacute;rea</td><td><span class="partial">~</span> Depende da plataforma</td><td><span class="check">&#10003;</span> Sim, qualquer profissional</td><td><span class="check">&#10003;</span> Sim</td></tr>
     </tbody>
   </table>
 </section>
 
+<!-- CTA -->
 <section class="cta-section">
   <div class="section-tag">Acesso antecipado</div>
   <h2 class="cta-title reveal">Entre antes<br>de todo mundo.</h2>
-  <p class="cta-sub reveal reveal-delay-1" id="cta-sub-vagas">Os primeiros 50 a se cadastrar ter&atilde;o 6 meses gratuitos no plano Pro &mdash; sem cart&atilde;o, sem compromisso.</p>
+  <p class="cta-sub reveal reveal-delay-1" id="cta-sub-vagas">Os primeiros <strong>50 inscritos</strong> ganham 6 meses gr&aacute;tis no plano Pro quando lan&ccedil;armos.</p>
   <p class="cta-sub reveal reveal-delay-1" id="cta-sub-lista" style="display:none;">As vagas do plano Pro gratuito j&aacute; foram preenchidas. Mas voc&ecirc; ainda pode entrar na lista &mdash; e ser&aacute; um dos primeiros a saber quando abrirmos o acesso.</p>
   <div class="cta-form reveal reveal-delay-2" id="cta-form">
     <input type="email" class="email-input" placeholder="seu@email.com" id="cta-email" autocomplete="email">
@@ -340,7 +344,7 @@ footer{padding:48px;border-top:1px solid var(--border);display:flex;justify-cont
     <div class="modal-body">
       <div class="modal-tag">Última atualização: Março 2026</div>
       <h3>Quem somos</h3>
-      <p>O Wevalue é uma plataforma de indicações para freelancers tech brasileiros, desenvolvida com foco em transparência e respeito aos dados dos usuários. Esta política descreve como coletamos, usamos e protegemos as informações fornecidas durante o pré-cadastro.</p>
+      <p>O Wevalue é uma plataforma de indicações para profissionais brasileiros, desenvolvida com foco em transparência e respeito aos dados dos usuários. Esta política descreve como coletamos, usamos e protegemos as informações fornecidas durante o pré-cadastro.</p>
       <h3>O que coletamos agora</h3>
       <p>Nesta fase de pré-lançamento, coletamos <strong>apenas o seu endereço de email</strong>, fornecido voluntariamente ao se inscrever na lista de acesso antecipado. Nada mais.</p>
       <p>Não coletamos dados de navegação, cookies de rastreamento, informações de dispositivo ou qualquer dado sem o seu consentimento explícito.</p>
@@ -386,10 +390,10 @@ footer{padding:48px;border-top:1px solid var(--border);display:flex;justify-cont
       <h3>O que a inscrição garante</h3>
       <ul>
         <li>Prioridade de acesso quando a plataforma abrir</li>
-        <li>Possibilidade de 6 meses gratuitos no plano Pro para os primeiros 50 inscritos</li>
+        <li>6 meses gratuitos no plano Pro para os primeiros 50 inscritos</li>
         <li>Comunicação direta sobre o lançamento</li>
       </ul>
-      <p>A oferta de 6 meses gratuitos no plano Pro é uma intenção do Wevalue, não uma obrigação contratual nesta fase. Os detalhes serão formalizados nos termos definitivos no momento do lançamento.</p>
+      <p>A oferta de 6 meses gratuitos no plano Pro para os primeiros 50 inscritos é uma intenção do Wevalue, não uma obrigação contratual nesta fase. Os detalhes serão formalizados nos termos definitivos no momento do lançamento.</p>
       <h3>Conduta esperada</h3>
       <p>O Wevalue é construído sobre <strong>confiança entre profissionais</strong>. Quando a plataforma for lançada, esperamos que os usuários ajam com honestidade nas indicações, respeitem os colegas e utilizem o sistema de forma ética.</p>
       <h3>Propriedade intelectual</h3>
@@ -416,24 +420,15 @@ footer{padding:48px;border-top:1px solid var(--border);display:flex;justify-cont
       <div class="modal-tag">Estamos no início &mdash; adoramos ouvir feedback</div>
       <a href="mailto:wevaluehub@outlook.com" class="contact-card">
         <div class="contact-card-icon">&#9993;&#65039;</div>
-        <div>
-          <div class="contact-card-label">E-mail</div>
-          <div class="contact-card-value">wevaluehub@outlook.com</div>
-        </div>
+        <div><div class="contact-card-label">E-mail</div><div class="contact-card-value">wevaluehub@outlook.com</div></div>
       </a>
       <a href="https://wa.me/5588992860872" target="_blank" rel="noopener" class="contact-card">
         <div class="contact-card-icon">&#128241;</div>
-        <div>
-          <div class="contact-card-label">Telefone / WhatsApp</div>
-          <div class="contact-card-value">(88) 99286-0872</div>
-        </div>
+        <div><div class="contact-card-label">Telefone / WhatsApp</div><div class="contact-card-value">(88) 99286-0872</div></div>
       </a>
       <a href="https://instagram.com/wevalue_" target="_blank" rel="noopener" class="contact-card">
         <div class="contact-card-icon">&#128248;</div>
-        <div>
-          <div class="contact-card-label">Instagram</div>
-          <div class="contact-card-value">@wevalue_</div>
-        </div>
+        <div><div class="contact-card-label">Instagram</div><div class="contact-card-value">@wevalue_</div></div>
       </a>
     </div>
   </div>
@@ -443,7 +438,6 @@ footer{padding:48px;border-top:1px solid var(--border);display:flex;justify-cont
 (function () {
   'use strict';
 
-  /* 1. CURSOR */
   var dot = document.getElementById('cursorDot');
   var ring = document.getElementById('cursorRing');
   var mx = 0, my = 0, rx = 0, ry = 0;
@@ -465,7 +459,6 @@ footer{padding:48px;border-top:1px solid var(--border);display:flex;justify-cont
     document.addEventListener('mouseenter', function () { dot.style.opacity = '1'; ring.style.opacity = '1'; });
   }
 
-  /* 2. NAV */
   var nav = document.getElementById('mainNav');
   if (nav) {
     window.addEventListener('scroll', function () {
@@ -473,7 +466,6 @@ footer{padding:48px;border-top:1px solid var(--border);display:flex;justify-cont
     }, { passive: true });
   }
 
-  /* 3. REVEAL */
   var revealEls = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window) {
     var ro = new IntersectionObserver(function (entries) {
@@ -486,9 +478,10 @@ footer{padding:48px;border-top:1px solid var(--border);display:flex;justify-cont
     revealEls.forEach(function (el) { el.classList.add('visible'); });
   }
 
-  /* 4. COUNTER — valor real vindo da API */
   var cntEl = document.getElementById('cnt-main');
   var currentCount = 0;
+  var PRO_LIMIT = 50;
+
   function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
   function animCount(el, from, to, ms) {
     var s = null;
@@ -500,8 +493,6 @@ footer{padding:48px;border-top:1px solid var(--border);display:flex;justify-cont
     }
     requestAnimationFrame(tick);
   }
-  // Busca o contador real da API ao carregar
-  var PRO_LIMIT = 50;
 
   function updateCtaBanner(count) {
     var subVagas = document.getElementById('cta-sub-vagas');
@@ -538,11 +529,11 @@ footer{padding:48px;border-top:1px solid var(--border);display:flex;justify-cont
       }
     })
     .catch(function() {
-      // Fallback silencioso se API não responder
-      if (cntEl) cntEl.textContent = '—';
+      if (cntEl) cntEl.textContent = '0';
     });
 
-  /* 5. EMAIL FORM — integrado com API real */
+  function isValid(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v); }
+
   function setLoading(prefix, loading) {
     var btn = document.getElementById(prefix + '-btn');
     if (!btn) return;
@@ -551,15 +542,12 @@ footer{padding:48px;border-top:1px solid var(--border);display:flex;justify-cont
     btn.style.opacity = loading ? '0.7' : '1';
   }
 
-  function isValid(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v); }
-
   function submit(prefix) {
     var inp = document.getElementById(prefix + '-email');
     var wrap = document.getElementById(prefix + '-form');
     var ok = document.getElementById(prefix + '-success');
     if (!inp || !wrap || !ok) return;
     var val = inp.value.trim();
-
     if (!isValid(val)) {
       inp.classList.add('error');
       var ph = inp.placeholder;
@@ -567,9 +555,7 @@ footer{padding:48px;border-top:1px solid var(--border);display:flex;justify-cont
       setTimeout(function () { inp.classList.remove('error'); inp.placeholder = ph; }, 2400);
       inp.focus(); return;
     }
-
     setLoading(prefix, true);
-
     fetch('/api/subscribe', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -578,7 +564,6 @@ footer{padding:48px;border-top:1px solid var(--border);display:flex;justify-cont
     .then(function(r) { return r.json(); })
     .then(function(data) {
       if (data.success) {
-        // Atualiza contador com valor real retornado pela API
         if (!data.duplicate && data.count && cntEl) {
           currentCount = data.count;
           cntEl.textContent = currentCount;
@@ -586,7 +571,6 @@ footer{padding:48px;border-top:1px solid var(--border);display:flex;justify-cont
         }
         wrap.style.display = 'none';
         ok.style.display = 'flex';
-        // Sincroniza o outro formulário também (hero e cta compartilham estado)
         var otherPrefix = prefix === 'hero' ? 'cta' : 'hero';
         var otherWrap = document.getElementById(otherPrefix + '-form');
         var otherOk = document.getElementById(otherPrefix + '-success');
@@ -604,7 +588,6 @@ footer{padding:48px;border-top:1px solid var(--border);display:flex;justify-cont
       setTimeout(function() { inp.classList.remove('error'); }, 2400);
     });
   }
-
   var hb = document.getElementById('hero-btn');
   var cb = document.getElementById('cta-btn');
   if (hb) hb.addEventListener('click', function () { submit('hero'); });
@@ -615,7 +598,6 @@ footer{padding:48px;border-top:1px solid var(--border);display:flex;justify-cont
     });
   });
 
-  /* 6. MODALS */
   function openModal(id) {
     var el = document.getElementById('modal-' + id);
     if (!el) return;
